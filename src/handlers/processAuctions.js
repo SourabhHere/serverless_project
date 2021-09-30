@@ -1,5 +1,8 @@
+import {getDueAuctions} from '../utils/getDueAuctions'
+
 async function processAuctions(event, context){
-  console.log("processing auctions");
+  let auctions = await getDueAuctions(Date());
+  console.log(auctions);
 }
 
 export const handler = processAuctions;
