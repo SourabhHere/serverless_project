@@ -18,12 +18,8 @@ AuctionTable:
         KeySchema:
           - AttributeName: status
             KeyType: HASH
-        Projection:
-          ProjectionType: ALL
-      - IndexName: EndAtindex
-        KeySchema:
           - AttributeName: endAt 
-            KeyType: HASH
+            KeyType: RANGE
         Projection:
           ProjectionType: ALL
           
