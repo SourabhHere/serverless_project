@@ -1,6 +1,6 @@
 import { DocumentClient } from 'aws-sdk/clients/dynamodb'
 
-dynamoDB = new DocumentClient();
+const dynamodb = new DocumentClient();
 
 export async function getDueAuctions(dt){
   const params = {
@@ -9,7 +9,7 @@ export async function getDueAuctions(dt){
     KeyConditionExpression: '#status = :status AND endAt <= :now',
     ExpressionAttributeValues: {
       ':status' : 'open',
-      ':now' : dt.toISOString,
+      ':now' : dt.toISOString(),
     },
     ExpressionAttributeNames:
     {
