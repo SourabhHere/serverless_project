@@ -4,4 +4,5 @@
 
 * install Nodejs version 14.15.4 
 * use `npm install serverless`.
-* do a `npm install` and deploy using `serverless deploy -v`
+* do an `npm install` and deploy using `serverless deploy -v`
+* 
