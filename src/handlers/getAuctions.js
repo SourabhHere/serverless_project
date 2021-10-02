@@ -9,11 +9,24 @@ async function getAuctions(event, context) {
   let auctions;
   let statusCode = 200;
 
-  try{
-    auctions = await dynamodb.scan({
-      TableName: process.env.AUCTION_TABLE_NAME
-    }).promise();
+  const {status} = event.queryStringParameters;
 
+  const params = {
+    TableName: process.env.AUCTION_TABLE_NAME,
+    IndexName: 'statusEndAtindex',
+    KeyConditionExpression: '#status = :status',
+    ExpressionAttributeValues: {
+      ':status' : status,
+    },
+    ExpressionAttributeNames:
+    {
+      '#status': 'status',
+    }
+  }
+
+  try {
+    let result = await dynamodb.query(params).promise();
+    auctions = result.Items;
   }catch(error){
     console.log(error)
     throw new httpError.InternalServerError(error)
