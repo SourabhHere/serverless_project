@@ -6,7 +6,7 @@ export const inputSchema = {
       properties: {
         amount: { type: 'number'}
       },
-      required: ['amount'] 
+      required: ['amount'],
     }
   }
-}
+};

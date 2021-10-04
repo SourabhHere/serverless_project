@@ -13,6 +13,7 @@ async function createAuction(event, context) {
   let statusCode = 200;
   let auction = {};
   let endDate = new Date();
+  const {email} = event.requestContext.authorizer;
   endDate.setHours(endDate.getHours() +1);
   if(body.title != undefined && body.title != null) {
   auction = {
@@ -24,6 +25,7 @@ async function createAuction(event, context) {
       amount: 0
     },
     endAt: endDate.toISOString(),
+    creator: email
   };
   statusCode = 201;
   }
@@ -39,12 +41,11 @@ async function createAuction(event, context) {
     await dynamodb.put({
       TableName: process.env.AUCTION_TABLE_NAME,
       Item: auction,}
-      ).promise();  
+      ).promise();
   } catch (error){
-    console.log(error)
-    throw new httpError.InternalServerError(error)
+    console.log(error);
+    throw new httpError.InternalServerError(error);
   }
-  
   return {
     statusCode: statusCode,
     body: JSON.stringify(auction),

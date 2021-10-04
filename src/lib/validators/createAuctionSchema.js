@@ -6,7 +6,7 @@ export const inputSchema = {
       properties: {
         title: { type: 'string'}
       },
-      required: ['title'] 
+      required: ['title'],
     }
   }
 };

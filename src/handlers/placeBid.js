@@ -15,19 +15,20 @@ async function placeBid(event, context) {
   let auction = await getAuction(id);
 
   if (auction.status != "open"){
-    throw new httpError.Forbidden(`the bid placing functionality is closed on this auction`)
+    throw new httpError.Forbidden(`the bid placing functionality is closed on this auction`);
   }
 
   if (amount <= auction.highestBid.amount) {
     throw new httpError.Forbidden(`bid must be higher than "${ auction.highestBid.amount }"`);
   }
-
+  const {email}= event.requestContext.authorizer;
   const params = {
     TableName: process.env.AUCTION_TABLE_NAME,
     Key: {id},
-    UpdateExpression: 'set highestBid.amount = :amount',
+    UpdateExpression: 'set highestBid.amount = :amount, highestBid.bidder = :email',
     ExpressionAttributeValues: {
       ':amount': amount,
+      ':email' : email,
     },
     ReturnValues: 'ALL_NEW'
   };
@@ -37,14 +38,10 @@ async function placeBid(event, context) {
   try {
     const result = await dynamodb.update(params).promise();
     updatedAuction = result.Attributes;
-    
   } catch (error) {
     console.log(error);
     throw new httpError.InternalServerError(error);
-    
   }
-
-
   return {
     statusCode: statusCode,
     body: JSON.stringify(updatedAuction),
