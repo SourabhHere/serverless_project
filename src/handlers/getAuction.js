@@ -1,6 +1,6 @@
 import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 import httpError from 'http-errors'
-import commonMiddleware from '../utils/commonMiddleware';
+import commonMiddleware from '../lib/commonMiddleware';
 
 const dynamodb = new DocumentClient();
 

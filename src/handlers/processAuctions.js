@@ -1,6 +1,6 @@
 import createError from 'http-errors'
-import {getDueAuctions} from '../utils/getDueAuctions'
-import {closeAuctions} from '../utils/closeAuctions'
+import {getDueAuctions} from '../lib/getDueAuctions'
+import {closeAuctions} from '../lib/closeAuctions'
 
 async function processAuctions(event, context){
   try{

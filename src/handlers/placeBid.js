@@ -1,6 +1,8 @@
 import { DocumentClient } from 'aws-sdk/clients/dynamodb';
-import httpError from 'http-errors'
-import commonMiddleware from '../utils/commonMiddleware';
+import httpError from 'http-errors';
+import validator from '@middy/validator';
+import { inputSchema } from '../lib/validators/placeBidSchema';
+import commonMiddleware from '../lib/commonMiddleware';
 import { getAuctionById as getAuction } from './getAuction';
 
 const dynamodb = new DocumentClient();
@@ -9,8 +11,7 @@ async function placeBid(event, context) {
   let statusCode = 200;
   const { id } = event.pathParameters;
 
-  const { amount } = JSON.parse(event.body);
-
+  let { amount } = event.body;
   let auction = await getAuction(id);
 
   if (auction.status != "open"){
@@ -50,4 +51,5 @@ async function placeBid(event, context) {
   };
 }
 
-export const handler = commonMiddleware(placeBid);
+export const handler = commonMiddleware(placeBid)
+  .use(validator({inputSchema}));
