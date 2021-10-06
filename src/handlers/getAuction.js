@@ -1,8 +1,8 @@
-import { DocumentClient } from 'aws-sdk/clients/dynamodb';
+import AWS from 'aws-sdk';
 import httpError from 'http-errors'
 import commonMiddleware from '../lib/commonMiddleware';
 
-const dynamodb = new DocumentClient();
+const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 export async function getAuctionById(id){
   let auction;
@@ -23,7 +23,6 @@ export async function getAuctionById(id){
   
   return auction;
 }
-
 
 async function getAuction(event, context) {
   let auction;

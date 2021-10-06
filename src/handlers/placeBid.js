@@ -1,11 +1,11 @@
-import { DocumentClient } from 'aws-sdk/clients/dynamodb';
+import AWS from 'aws-sdk';
 import httpError from 'http-errors';
 import validator from '@middy/validator';
 import { inputSchema } from '../lib/validators/placeBidSchema';
 import commonMiddleware from '../lib/commonMiddleware';
 import { getAuctionById as getAuction } from './getAuction';
 
-const dynamodb = new DocumentClient();
+const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 async function placeBid(event, context) {
   let statusCode = 200;

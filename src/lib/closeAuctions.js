@@ -19,6 +19,9 @@ export async function closeAuctions(auction){
   
   await dynamodb.update(params).promise();
   
+  const {bidder, creator, title, highestBid} = auction;
+  const { amount } = highestBid
+
   const notifySeller = sqs.sendMessage({
     QueueUrl: process.env.MAIL_QUEUE_URL,
     MessageBody: JSON.stringify({
@@ -36,8 +39,8 @@ export async function closeAuctions(auction){
     }),
   }).promise();
 
-  return Promise.all({
+  return Promise.all([
     notifyBidder,
     notifySeller
-  });
+  ]);
 }

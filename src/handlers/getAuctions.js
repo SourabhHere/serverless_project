@@ -1,10 +1,10 @@
-import { DocumentClient } from 'aws-sdk/clients/dynamodb';
+import AWS from 'aws-sdk';
 import httpError from 'http-errors'
 import commonMiddleware from '../lib/commonMiddleware';
 import validator from '@middy/validator'
 import {inputSchema} from '../lib/validators/getAuctionsSchema'
 
-const dynamodb = new DocumentClient();
+const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 async function getAuctions(event, context) {
   let auctions;

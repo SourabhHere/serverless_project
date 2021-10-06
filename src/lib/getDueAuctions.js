@@ -1,6 +1,6 @@
-import { DocumentClient } from 'aws-sdk/clients/dynamodb'
+import AWS from 'aws-sdk'
 
-const dynamodb = new DocumentClient();
+const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 export async function getDueAuctions(dt){
   const params = {

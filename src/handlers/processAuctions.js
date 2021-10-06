@@ -10,10 +10,7 @@ async function processAuctions(event, context){
     result = auctions.map( auction => closeAuctions(auction));
     await Promise.all(result);
     return {
-      statusCode: 200,
-      body: {
         closed: result.length
-      }
       };
   } catch(error){
     console.log(error);
