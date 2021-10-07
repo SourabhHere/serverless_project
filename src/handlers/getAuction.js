@@ -1,40 +1,37 @@
-import AWS from 'aws-sdk';
+import AWS from 'aws-sdk'
 import httpError from 'http-errors'
-import commonMiddleware from '../lib/commonMiddleware';
+import commonMiddleware from '../lib/commonMiddleware'
 
-const dynamodb = new AWS.DynamoDB.DocumentClient();
+const dynamodb = new AWS.DynamoDB.DocumentClient()
 
-export async function getAuctionById(id){
-  let auction;
+export async function getAuctionById (id) {
+  let auction
 
   try {
-    let result = await dynamodb.get({
+    const result = await dynamodb.get({
       TableName: process.env.AUCTION_TABLE_NAME,
-      Key: {id}
-    }).promise();
-    auction = result.Item;
-  }catch(error){
+      Key: { id }
+    }).promise()
+    auction = result.Item
+  } catch (error) {
     console.log(error)
     throw new httpError.InternalServerError(error)
   }
-  if(!auction){
-    throw new httpError.NotFound(`not Found with id : , "${id}"`);
+  if (!auction) {
+    throw new httpError.NotFound(`not Found with id : , "${id}"`)
   }
-  
-  return auction;
+
+  return auction
 }
 
-async function getAuction(event, context) {
-  let auction;
-  let statusCode = 200;
-  const { id } = event.pathParameters;
+async function getAuction (event, context) {
+  const { id } = event.pathParameters
+  const auction = await getAuctionById(id)
 
-  auction = await getAuctionById(id);
-  
   return {
-    statusCode: statusCode,
-    body: JSON.stringify(auction),
-  };
+    statusCode: 200,
+    body: JSON.stringify(auction)
+  }
 }
 
-export const handler = commonMiddleware(getAuction);
+export const handler = commonMiddleware(getAuction)

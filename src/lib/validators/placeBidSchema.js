@@ -4,9 +4,9 @@ export const inputSchema = {
     body: {
       type: 'object',
       properties: {
-        amount: { type: 'number'}
+        amount: { type: 'number' }
       },
-      required: ['amount'],
+      required: ['amount']
     }
   }
-};
+}

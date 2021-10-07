@@ -1,24 +1,22 @@
 import AWS from 'aws-sdk'
 
-const dynamodb = new AWS.DynamoDB.DocumentClient();
+const dynamodb = new AWS.DynamoDB.DocumentClient()
 
-export async function getDueAuctions(dt){
+export async function getDueAuctions (dt) {
   const params = {
     TableName: process.env.AUCTION_TABLE_NAME,
     IndexName: 'statusEndAtindex',
     KeyConditionExpression: '#status = :status AND endAt <= :now',
     ExpressionAttributeValues: {
-      ':status' : 'open',
-      ':now' : dt.toISOString(),
+      ':status': 'open',
+      ':now': dt.toISOString()
     },
     ExpressionAttributeNames:
     {
-      '#status': 'status',
+      '#status': 'status'
     }
-    
   }
-  
-  const result = await dynamodb.query(params).promise();
+  const result = await dynamodb.query(params).promise()
 
-  return result.Items;
+  return result.Items
 }
