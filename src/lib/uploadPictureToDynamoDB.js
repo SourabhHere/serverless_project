@@ -2,7 +2,7 @@ import AWS from 'aws-sdk'
 
 const dynamodb = new AWS.DynamoDB.DocumentClient()
 
-export function uploadPictureToDynamoDB (id, urlLocation) {
+export async function uploadPictureToDynamoDB (id, urlLocation) {
   const params = {
     TableName: process.env.AUCTION_TABLE_NAME,
     Key: { id },
@@ -13,6 +13,6 @@ export function uploadPictureToDynamoDB (id, urlLocation) {
     ReturnValues: 'ALL_NEW'
   }
 
-  const result = dynamodb.update(params).promise()
+  const result = await dynamodb.update(params).promise()
   return result.Attributes
 }

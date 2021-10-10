@@ -17,7 +17,7 @@ provider:
     AUCTION_TABLE_NAME: ${self:custom.AuctionTable.name}
     MAIL_QUEUE_URL: ${self:custom.mailQueue.url}
     AUCTION_BUCKET_NAME: ${self:custom.AuctionsBucket.name}
-    # AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
   iamRoleStatements:
     - ${file(iam/auctionTableIAM.yaml):AuctionTableIAM}
     - ${file(iam/mailQueueIAM.yml):SQSQueueIAM}
