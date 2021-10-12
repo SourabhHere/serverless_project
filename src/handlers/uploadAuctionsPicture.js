@@ -1,10 +1,11 @@
 import middy from '@middy/core'
 import httpErrorHandler from '@middy/http-error-handler'
 import createError from 'http-errors'
+import validator from '@middy/validator'
+import cors from '@middy/http-cors'
 import { getAuctionById } from '../handlers/getAuction'
 import { uploadAuctionPictureToS3 } from '../lib/uploadPictureToS3'
 import { uploadPictureToDynamoDB } from '../lib/uploadPictureToDynamoDB'
-import validator from '@middy/validator'
 import { inputSchema } from '../lib/validators/uploadAuctionPictureSchema'
 
 async function uploadAuctionsPicture (event) {
@@ -33,3 +34,4 @@ async function uploadAuctionsPicture (event) {
 export const handler = middy(uploadAuctionsPicture)
   .use(httpErrorHandler())
   .use(validator({ inputSchema }))
+  .use(cors())
